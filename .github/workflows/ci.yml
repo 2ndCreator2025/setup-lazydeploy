@@ -1,25 +1,8 @@
-name: CI/CD Pipeline
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  publish:
-    runs-on: ubuntu-latest  # Use Ubuntu as the runner
-    permissions:
-      contents: read
-      deployments: write
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-
-      - name: Setup User's Custom CICD
-        uses: ./.github/actions/setup-lazydeploy  # Reference your action
-        with:
-          pipeline: ${{ github.event.inputs.pipeline }}  # Use user-defined value
-          args: ${{ github.event.inputs.args }}            # Use user-defined value
-          working-directory: ${{ github.event.inputs.working-directory }}  # Use user-defined value
-        env:
-          GITHUB_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}  # Use secret for access token
+- name: Setup User's Custom CICD
+  uses: ./.github/actions/setup-lazydeploy  # Reference your action
+  with:
+    pipeline: ${{ github.event.inputs.pipeline }}  # Use user-defined value
+    args: ${{ github.event.inputs.args }}            # Use user-defined value
+    working-directory: ${{ github.event.inputs.working-directory }}  # Use user-defined value
+  env:
+    GITHUB_ACCESS_TOKEN: ${{ secrets.GH_ACCESS_TOKEN }}  # Use secret for access token
